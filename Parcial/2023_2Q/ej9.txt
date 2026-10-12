@@ -1,0 +1,16 @@
+Usando el DER del ejercicio 3, se requiere listar los nombres de instituciones con director que en la actualidad no registran acción de voluntarios.
+
+Indique cuál/es de las siguientes soluciones permite/n obtener lo pedido y justifique de forma clara y concisa cada opción descartada. Seleccione una o más de una:
+
+a) Ninguna de las opciones
+b) select nombre_institucion from institucion i where i.id_director is not null and i.id_institucion not in (select id_institucion from voluntario);
+c) select nombre_institucion from institucion i join voluntario v on (i.id_institucion <> v.id_institucion) where i.id_director is not null;
+d) select nombre_institucion from institucion i where i.id_director is not null and not exists (select 1 from voluntario v where v.id_institucion = i.id_institucion);
+e) select nombre_institucion from institucion i where i.id_director <> null and not exists (select 1 from voluntario v where v.id_institucion = i.id_institucion);
+
+Respuesta/s correcta/s: d
+
+- La a falla porque elegí la d como correcta.
+- La c falla porque JOIN con <> combina las instituciones con los voluntarios de las otras, no es lo que se desea.
+- La e falla porque algo <> null da UNKNOWN --> no es TRUE, filtra todas las filas y devuelve vacío
+- La b falla porque id_institucion es nullable y NOT IN (a, b, ..., null) es como id <> a AND id <> b AND ... AND id <> NULL que da UNKNOWN entonces sucede el suceso explicado en la e. Depende de que ninguna sea null para funcionar.

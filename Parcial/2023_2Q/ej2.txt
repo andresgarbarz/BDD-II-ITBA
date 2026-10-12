@@ -1,0 +1,14 @@
+Ejercicio 2. ¿Cuál es el resultado de la siguiente consulta realizada sobre el esquema de Películas (unc_esq_peliculas)?
+
+
+SELECT id_jefe, id_tarea, SUM(sueldo) AS "Suma"
+FROM unc_esq_peliculas.empleado
+GROUP BY id_jefe, id_tarea HAVING SUM(sueldo) > 10000;
+
+a) Lista la suma de sueldos de los empleados por cada jefe en cada tarea si dicha suma supera los 10000.
+b) Lista la suma de sueldos de los jefes por tarea que sean mayores a 10000 por cada empleado.
+c) Ninguna de las otras propuestas.  
+d) Lista la suma de sueldos para los jefes por tarea que tengan más de 10000 empleados.
+e) Da error porque está mal expresada.
+
+Opción correcta: a

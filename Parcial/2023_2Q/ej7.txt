@@ -1,0 +1,9 @@
+Verdadero o Falso.
+a) El 'EXPLAIN ANALYZE <SQL>' muestra los tiempos de la planificación, pero no ejecuta la sentencia <SQL>.
+b) El 'EXPLAIN ANALYZE <SQL>' solo ejecuta la sentencia <SQL> y muestra los tiempos de la ejecución.
+c) El 'EXPLAIN ANALYZE <SQL>' planifica, ejecuta y muestra los tiempos de la planificación y la ejecución.
+
+Respuestas:
+a) Falso: EXPLAIN ANALYZE ejecuta la sentencia, EXPLAIN no.
+b) Falso: No solo ejecuta y muestra tiempos. Planifica primero y muestra este tiempo también, así como estimaciones del optimizador vs valores reales de cada nodo del plan.
+c) Verdadero.

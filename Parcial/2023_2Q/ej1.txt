@@ -1,0 +1,16 @@
+a)
+SELECT c.tipo_doc, c.nro_doc, c.apellido
+FROM constructor c
+JOIN ejecuta e ON c.tipo_doc = e.tipo_doc AND c.nro_doc = e.nro_doc
+JOIN obra o ON e.id_obra = o.id_obra
+WHERE c.antiguedad > 10 AND anio_finalizacion IS NULL
+GROUP BY c.tipo_doc, c.nro_doc, c.apellido
+HAVING COUNT(e.id_obra) >= 3
+ORDER BY c.apellido;
+
+b)
+SELECT o.*, COALESCE(p.arquitecto, g.ingeniero_resp) AS Resp_obra
+FROM obra o
+LEFT JOIN obra_privada p ON o.id_obra = p.id_obra
+LEFT JOIN obra_civil g ON o.id_obra = g.id_obra
+WHERE o.tipo_doc IS NOT NULL AND o.nro_doc IS NOT NULL;

@@ -1,0 +1,20 @@
+a) U1 recibe permiso de SELECT sobre ES y ESJ, pues U0 se lo dio siendo admin.
+b) U1 recibe permiso de INSERT y UPDATE sobre EMPLEADO, con posibilidad de otorgarlo, pues U0 se lo dio con WITH GRANT OPTION siendo admin.
+c) U0 actualiza un campo en ES.
+d) U1 y U3 reciben permiso de SELECT sobre EMPLEADO, con posibilidad de otorgarlo, pues U0 se lo dio con WITH GRANT OPTION siendo admin.
+e) U2 recibe permiso de SELECT sobre EMPLEADO, con posibilidad de otorgarlo, pues U1 se lo dio con WITH GRANT OPTION teniendo esa capacidad.
+f) U3 recibe permiso de SELECT sobre EMPLEADO, pues U2 se lo dio teniendo esa capacidad.
+g) U3 recibe permiso de SELECT sobre ESJ, pues U0 se lo dio siendo admin.
+h) U2 pierde su única vía de permiso de SELECT sobre EMPLEADO y la posibilidad de otorgarlo, pues U1 que era esa única vía se lo quita. En consecuencia, U3 pierde una vía de permiso de SELECT sobre EMPLEADO vía U2, pero conserva dicho permiso pues aún cuenta con la vía que le otorgó U0 de permiso de SELECT sobre EMPLEADO, con posibilidad de otorgarlo.
+
+Resultado Final:
+- U0 mantiene todos los permisos sobre ES, ESJ y EMPLEADO porque es admin.
+- U1 conserva SELECT, INSERT y UPDATE sobre EMPLEADO, con posibilidad de otorgarlos y SELECT sobre ES y ESJ.
+- U2 pierde SELECT sobre EMPLEADO y posibilidad de otorgarlo.
+- U3 conserva SELECT sobre ESJ, SELECT sobre EMPLEADO y posibilidad de otorgarlo.
+
+Permisos finales:
+- U0: Todos los permisos sobre ES, ESJ y EMPLEADO, con posibilidad de otorgarlos.
+- U1: SELECT, INSERT y UPDATE sobre EMPLEADO con posibilidad de otorgarlos. SELECT sobre ES, ESJ.
+- U2: -
+- U3: SELECT sobre ESJ, SELECT sobre EMPLEADO y posibilidad de otorgarlo.

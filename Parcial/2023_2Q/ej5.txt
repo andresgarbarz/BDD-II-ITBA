@@ -1,0 +1,16 @@
+Explique la diferencia de utilizar WITH CHECK OPTION y no usarla. Proponga un ejemplo donde se vea claramente esa diferencia.
+
+WITH CHECK OPTION se agrega al final de la definición de una vista actualizable. Hace que cada INSERT o UPDATE hecho a través de la vista sea rechazado si la fila resultante dejaría de cumplir el WHERE de la vista.
+Por ejemplo, si tengo la siguiente vista:
+
+CREATE VIEW jugadores_mas_100_goles AS
+SELECT nombre, apellido, goles
+FROM jugador
+WHERE goles > 100
+WITH CHECK OPTION;
+
+Si yo inserto ("Javier", "Mascherano", 8) en la vista, como tengo el WITH CHECK OPTION no me permite. Si no estuviera, podría insertarlo y se guardaría en la tabla, pero no se mostraría en la vista pues el where lo filtra.
+
+Si yo actualizo la entrada de apellido "Messi" que contaba con 934 goles, y le pongo goles = 10, como tengo el WITH CHECK OPTION no me permite. Si no estuviera, podría actualizarlo y se guardaría en la tabla, pero no se mostraría en la vista pues el where lo filtra. 
+
+De cumplir con el WHERE, tanto INSERT como UPDATE tienen el mismo efecto con o sin el WITH CHECK OPTION.

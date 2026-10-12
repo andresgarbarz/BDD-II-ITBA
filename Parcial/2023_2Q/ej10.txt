@@ -1,0 +1,34 @@
+Considere que se crean las siguientes tablas en PostgreSQL:
+
+CREATE TABLE JUGO (
+    id INT PRIMARY KEY,
+    marca VARCHAR(16),
+    codigo_ean INT
+);
+
+CREATE TABLE SABOR (
+    id INT PRIMARY KEY,
+    marca VARCHAR(16),
+    sabor VARCHAR(8) NOT NULL
+);
+
+y se ingresan los siguientes datos:
+
+INSERT INTO JUGO VALUES (1, 'RINDE2', 1151354787), (2, 'TANG', 222353464), (3, 'ADES', NULL), (4, NULL, 542136499);
+INSERT INTO SABOR VALUES (1, 'TANG', 'NARANJA'), (2, 'ADES', 'POMELO'), (3, 'BAGGIO', 'NARANJA'), (4, NULL, 'MANZANA');
+
+Al ejecutar la consulta a continuación se obtiene como resultado: 0 rows.
+¿El comportamiento de la consulta es el esperado? Seleccione su respuesta, entre las opciones disponibles
+
+SELECT marca
+FROM JUGO
+WHERE marca NOT IN (SELECT marca FROM SABOR);
+
+a) Sí, debido a que el valor NULL de la columna marca de la tabla SABOR fuerza a que la comparación dé como resultado desconocido, entonces no se listará ninguna tupla.
+b) Sí, debido a que el valor NULL de la columna marca de la tabla JUGO fuerza a que la comparación dé como resultado desconocido, entonces no se listará ninguna tupla.
+c) No, la sentencia escrita en PostgreSQL debe retornar las marcas de jugos que no tengan registrados sabores en la base de datos.
+d) Sí, ya que no hay marcas de jugos de los cuales no haya sabores registrados.
+
+Respuesta correcta: a
+
+El problema es que uno de los valores de marca insertados en sabor era NULL, y al hacer NOT IN (a, b, ..., NULL) es como hacer marca <> a AND marca <> b AND ... AND marca <> NULL que da UNKNOWN, entonces se filtran todas las filas y devuelve vacío.

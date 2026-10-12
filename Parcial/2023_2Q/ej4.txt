@@ -1,0 +1,26 @@
+a)
+CREATE ASSERTION max_4_obras_sim
+CHECK (
+	NOT EXISTS (
+		SELECT 1
+		FROM ejecuta e
+		JOIN obra o ON e.id_obra = o.id_obra
+		WHERE o.anio_finalizacion IS NULL
+		GROUP BY e.tipo_doc, e.nro_doc
+		HAVING COUNT(o.id_obra) > 4
+	)
+);
+
+Es una restricción de integridad global, porque abarca más de una tabla.
+
+b)
+CREATE VIEW ConstructorVIP AS
+SELECT e.tipo_doc, e.nro_doc, SUM(e.presupuesto) AS suma
+FROM ejecuta e
+JOIN obra o ON e.id_obra = o.id_obra
+WHERE o.anio_finalizacion IS NULL
+GROUP BY e.tipo_doc, e.nro_doc
+HAVING SUM(e.presupuesto) > 1000000;
+
+No es actualizable.
+Una vista es actualizable cuando cada fila de la vista se corresponde con una única fila de una tabla base. En este caso, agrupa varias filas para la suma.

@@ -1,0 +1,31 @@
+Considere la base de datos de Voluntarios. Se requiere listar el identificador, apellido, nombre de la tarea que realiza y edad de los 3 directores más jóvenes de aquellas instituciones asentadas en Estados Unidos.
+
+La query normal se vería así:
+
+SELECT v.nro_voluntari, v.apellido, t.nombre_ta, TIMESTAMPDIFF(YEAR, v.fecha_nacimi, CURDATE()) AS edad
+FROM institucion i
+JOIN voluntario v ON i.id_director = v.nro_voluntari
+JOIN tarea t ON v.id_tarea = t.id_tarea
+JOIN direccion d ON i.id_direccion = d.id_direccion
+JOIN pais p ON d.id_pais = p.id_pais
+WHERE p.nombre_pais = 'Estados Unidos'
+ORDER BY v.fecha_nacimi DESC
+LIMIT 3;
+
+Sin embargo, este ejercicio era de llenar los espacios en blanco, y muchos JOINs eran con "IN subquery". Quedaría así:
+
+SELECT v.nro_voluntari, v.apellido, t.nombre_ta, TIMESTAMPDIFF(YEAR, v.fecha_nacimi, CURDATE()) AS edad
+FROM voluntario v
+JOIN tarea t ON v.id_tarea = t.id_tarea
+WHERE v.nro_voluntari IN (
+	SELECT i.id_director
+	FROM institucion i
+	WHERE i.id_direccion IN (
+		SELECT d.id_direccion
+		FROM direccion d
+		JOIN pais p ON d.id_pais = p.id_pais
+		WHERE p.nombre_pais = 'Estados Unidos'
+	)
+)
+ORDER BY v.fecha_nacimi DESC
+LIMIT 3;
