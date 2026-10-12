@@ -1,0 +1,12 @@
+a) Se inserta en la tabla, pero no se muestra en la vista, pues no cumple el where de la vista y no hay un WITH CHECK OPTION.
+
+b) Se inserta en la tabla. LOCAL CHECK valida su propio where (cumple), sube a MovimientoUSDT, pero al no tener CHECK no valida su where y finalmente sube a movimiento, que al ser tabla no tiene where para validar y acepta.
+Es insertado, pero no se muestra en las vistas, porque no cumple el where de MovimientoUSDT.
+
+c) No se inserta porque no cumple el CHECK de valor < 1100.
+
+d) No se inserta, porque no cumple el CHECK de comision < 20.
+
+e) No se inserta porque no cumple el CHECK de valor < 1100.
+
+f) No se inserta, porque no cumple el CHECK de moneda LIKE '%USDT%'

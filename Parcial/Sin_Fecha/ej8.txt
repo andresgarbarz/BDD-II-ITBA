@@ -1,0 +1,9 @@
+a) Falso. CQL soporta SELECT, INSERT, UPDATE, DELETE y DDL. Es similar a SQL, aunque sin JOINs.
+
+b) Falso. El nivel de consistencia (ONE, QUORUM, ALL, LOCAL_QUORUM, etc.) se puede definir en cada query e indica cuántas réplicas deben responder para considerarla exitosa.
+
+c) Verdadero. Replica cada dato en RF nodos (definido en el keyspace), logrando alta disponibilidad y tolerancia a fallos.
+
+d) Verdadero. Es P2P y los nodos utilizan el protocolo gossip para comunicarse.
+
+e) Falso. Es NO-SQL del tipo wide-column (familias de columnas).

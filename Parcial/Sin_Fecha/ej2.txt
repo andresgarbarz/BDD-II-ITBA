@@ -1,0 +1,8 @@
+a) No se ejecuta, porque idCarr=2 está referenciado en la tabla Materia, y R2 dice ON DELETE RESTRICT.
+
+b) No se ejecuta, pues al pasar de (1, F2) a (1, F1), habría un valor de PK duplicado.
+
+c) No indica si es MATCH SIMPLE/PARTIAL/FULL. Por defecto en SQL es SIMPLE, asumo eso.
+	SIMPLE: Se ejecuta, pues una de las componentes de la FK es null.
+	PARTIAL: No se ejecuta, pues la componente no null de la FK no existe.
+	FULL: No se ejecuta, pues tiene componentes null y not null.

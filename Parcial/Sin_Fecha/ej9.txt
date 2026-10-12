@@ -1,0 +1,15 @@
+MongoDB. ¿Qué diferencia existe entre Replicación y Sharding?
+
+a) El sharding busca garantizar que siempre haya copias de los datos disponibles y permite escalar una base de datos distribuida horizontalmente. La replicación persigue exactamente lo mismo.
+
+b) La replicación busca garantizar que siempre haya copias de los datos disponibles, mientras que el sharding permite escalar una base de datos distribuida horizontalmente
+
+c) El sharding busca garantizar que siempre haya copias de los datos disponibles, mientras que la replicación permite escalar una base de datos distribuida horizontalmente
+
+d) Ninguna de las anteriores
+
+Opción correcta: B
+
+- Replicación: Mantiene copias del mismo dato en varios nodos, para garantizar alta disponibilidad y tolerancia a fallos.
+
+- Sharding: Reparte los datos entre varios servidores (shards) según un shard key, para que cada shard guarde solo una parte del conjunto total, garantizando escalado horizontal (soportar más carga que un solo servidor).

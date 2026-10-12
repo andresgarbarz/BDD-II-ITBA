@@ -1,0 +1,25 @@
+		Nodo
+-------------------------
+|						|					
+|	Memoria				|
+|	-------------		|
+|	| Memtable	|		|	
+|	|	[]		|		|
+|	-------------		|
+|						|
+|	Disco				|
+|	-------------		|
+|	|Commit Log	|		|	
+|	|	[]		|		|
+|	|			|		|
+|	| SStable	|		|
+|	|	[]		|		|
+|	-------------		|
+|						|
+-------------------------
+
+- Commit Log: Archivo secuencial en disco en el que se escriben las operaciones realizadas, garantizando durabilidad de los datos y recuperación ante fallos.
+
+- Memtable: Estructura de memoria organizada por familias de columnas. Almacena datos temporalmente para responder consultas rápido y acumula escrituras para volcarlas en bloque a disco.
+
+- SStable: Archivo inmutable en disco donde se vuelca la información (flush) cuando la Memtable alcanza cierto umbral. Las SStables se compactan generando nuevas al "mergearse" resolviendo por dato con timestamp más reciente y eliminando las obsoletas.
