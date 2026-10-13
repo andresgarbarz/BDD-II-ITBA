@@ -15,7 +15,7 @@
 8) db.proyectos.aggregate([
 	{$group: {$_id: $Investigador, cantProy: {$sum: 1}}},
 	{$sort: {cant: -1}}
-]) -2.5
+])
 
 9) Procede con MATCH SIMPLE
 

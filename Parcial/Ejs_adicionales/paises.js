@@ -1,8 +1,7 @@
 // A
 db.paises.find({
-	"exports.foods": {
-		$elemMatch: { name: "bacon", tasty: false },
-	},
+	"exports.foods.name": "bacon",
+	"exports.foods.tasty": false,
 });
 
 // B
