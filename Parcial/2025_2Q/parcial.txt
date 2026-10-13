@@ -1,0 +1,124 @@
+1) No procede
+2) Falso
+3) AP
+4) SKIP (Neo4J)
+5)
+I. Persistencia Políglota.
+II. Programación Políglota
+
+6)
+Map-Reduce:
+db.orders.mapReduce(
+	function () { emit(this.product, this.quantity * this.price); },
+	function (key, values) { return Array.sum(values); },
+	{ out: { inline: 1 } }
+);
+
+Aggregation:
+db.orders.aggregate([
+	{ $group: {$_id: "product", total: {$sum: {$multiply: ["$quantity", "$price"] } } } }
+])
+
+7)
+Keyspace: Base de datos
+Column Family: Tabla
+Fila: Fila
+Columna: Columna
+Cluster: Instancia
+
+8) SStable, Memtable, Commit Log
+
+9) BTree - Si - _id
+
+10) Falso
+
+11) Falso.
+
+Explicación: Una vista materializada (a diferencia de una común que reejecuta el SELECT en cada uso), guarda físicamente el resultado, entonces consultarla es leer una tabla ya calculada, por lo que tiene mejor performance. Además se pueden crear índices sobre ella. Pero la desventaja es que los datos pueden quedar desactualizados respecto a la tabla base. MySQL no tiene nativamente.
+
+12) codigo en Materia es PK y tiene definido un índice UNIQUE
+
+13) MySQL es CA
+
+14) Falso
+
+15) Devuelve la suma total de ordenes abonadas en efectivo de cada día.
+
+16)
+SELECT o.*, COALESCE(p.arquitecto, g.ingeniero_resp) AS Resp_obra
+FROM obra o
+LEFT JOIN obra_privada p ON o.id_obra = p.id_obra
+LEFT JOIN obra_civil g ON o.id_obra = g.id_obra
+WHERE o.tipo_doc IS NOT NULL AND o.nro_doc IS NOT NULL;
+
+17) No procede por restricción de unicidad
+
+18) Procede
+
+19) Procede con MATCH SIMPLE
+
+20) SKIP (Neo4J)
+
+21) La replicación busca garantizar que siempre haya copias de los datos disponibles, mientras que el sharding permite escalar una base de datos distribuida horizontalmente
+
+22) SKIP (Neo4J)
+
+23) B, C, D
+Cassandra requiere restringir en el WHERE toda la partition key (con = o IN).
+Después permite restringir las clustering columns de izquierda a derecha, en su orden de declaración y sin saltear ninguna. Cualquier otra combinación exige ALLOW FILTERING o un índice secundario.
+
+24) CHECK/ASSERTION, TRIGGER
+
+25)
+I. No permite que los empleados con sueldo mayor a 5000 tengan comision != 0
+II. Es de registro porque utiliza 2 campos de una misma tabla.
+III. Aplica para los datos nuevos y también los ya almacenados, ya que al hacer "ALTER TABLE tabla ADD CONSTRAINT cons CHECK ..." se validan las filas existentes y si alguna no cumple, falla.
+
+26) QUORUM = (RF/2) + 1
+
+27)
+CREATE VIEW ConstructorVIP AS
+SELECT e.tipo_doc, e.nro_doc, SUM(e.presupuesto) AS suma
+FROM ejecuta e
+JOIN obra o ON e.id_obra = o.id_obra
+WHERE o.anio_finalizacion IS NULL
+GROUP BY e.tipo_doc, e.nro_doc
+HAVING SUM(e.presupuesto) > 1000000;
+
+No es actualizable.
+Una vista es actualizable cuando cada fila de la vista se corresponde con una única fila de una tabla base. En este caso, agrupa varias filas para la suma.
+
+28) Falso.
+
+29)
+La PK en Cassandra se compone de dos partes: ((partition key), clustering columns)
+La partition key es 1+ obligatoria, las clustering columns son 0+ opcionales.
+
+La partition key determina en qué nodo del cluster se almacena la fila. Define distribución de datos y balanceo de carga. Toda consulta eficiente debe restringirla con = o IN.
+
+Las clustering column determinan el orden de las filas dentro de una partición, y garantizan unicidad entre filas que comparten partition key. El orden de declaración determina por cual se ordena primero (izq a der). Se puede definir el sentido de ordenamiento con WITH CLUSTERING ORDER BY (col1 DESC, col2 ASC)
+
+Ej: PK(blogId, month, day) entonces los blogs con mismo blogId se almacenan juntos, y luego se ordenan por mes primero y dia segundo
+
+30) No procede por RIR 2
+
+31) MongoDB. Modelo...
+Embebido: Los datos relacionados se guardan dentro del mismo documento, como subdocumentos o arreglos.
+	- Ventajas: Lecturas más rápidas sin $lookup (equivalente de JOIN) y atomicidad a nivel de documento.
+	- Desventajas: Límite de 16MB por documento, duplicación y difícil modelar many-to-many.
+
+No embebido (referenciado): Los datos se guardan en documentos separados y se vinculan por referencias (_id), similar a una FK.
+	- Ventajas: Sin duplicación, no arriesga superar los 16MB y permite modelar relaciones 1-n, n-m fácilmente.
+	- Desventajas: Lecturas más lentas con $lookup (o hacer más de una), menor atomicidad y mantener integridad referencial manualmente (MongoDB no impone FK).
+
+El criterio general suele ser:
+- Embeber si los datos se leen juntos y la cantidad es acotada.
+- Referenciar si los datos crecen sin límite o se comparten.
+
+32)
+U0: admin (todo).
+U1: SELECT sobre CS, CSV. SELECT, INSERT, UPDATE sobre CLIENTE otorgables.
+U2: SELECT sobre CSV. SELECT sobre CLIENTE otorgable.
+U3: -
+
+33) SKIP (Neo4J)
