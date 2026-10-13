@@ -1,0 +1,104 @@
+1) Retorna la cantidad de ordenes agrupadas por tipo con tamaño mediano y estado completado.
+
+2) Falso.
+
+3) No procede por RIR 2.
+
+4) No procede por restricción de unicidad.
+
+5) La partition key determina a qué nodo va cada fila, mientras que la clustering key sirve para diferenciar y ordenar las filas de una misma partición.
+
+6) SKIP (Neo4J)
+
+7) Procede
+
+8) db.proyectos.aggregate([
+	{$group: {$_id: $Investigador, cantProy: {$sum: 1}}},
+	{$sort: {cant: -1}}
+]) -2.5
+
+9) Procede con MATCH SIMPLE
+
+10) Falso
+
+11) SStable, Commit Log, Memtable
+
+12) Verdadero
+
+13)
+I. Fuerza a que comision = 0 para todo vendedor con sueldo mayor a 5000000.
+II. Es una restricción de Registro, pues involucra más de un campo pero de una misma tabla.
+III. Aplica a ambas. Los datos insertados deben cumplir. Los datos existentes también, o falla el ALTER TABLE.
+
+14)
+I. Persistencia políglota.
+II. Programación políglota.
+
+15) No procede.
+
+16)
+U0: Todos los permisos y capacidad de otorgarlos/revocarlos (admin).
+U1: SELECT sobre IJ, IH. SELECT, INSERT, UPDATE (solo de campos IdInvest, nombre) sobre INVESTIGADOR con capacidad de otorgarlo.
+U2: -
+U3: SELECT sobre IJ. SELECT sobre INVESTIGADOR con capacidad de otorgarlo.
+
+Falla la sentencia de INSERT sobre IS que ejecuta U1, pues no tiene permiso de INSERT sobre dicha tabla.
+
+17)
+I. Ocurre la anomalía denominada PHANTOM READ, pues T1 ejecuta la misma consulta 2 veces y obtiene más filas la 2da vez, porque T2 hizo una escritura y commiteó en medio.
+II. Lo evita el nivel más alto de aislamiento: SERIALIZABLE.
+	Código SQL: SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+	
+18)
+CREATE VIEW ConstructorVip AS
+SELECT c.tipo_doc, c.nro_doc, COUNT(p.id_obra) AS cant_priv, SUM(e.presupuesto) AS total
+FROM constructor c
+JOIN ejecuta e ON c.tipo_doc = e.tipo_doc AND c.nro_doc = e.nro_doc
+JOIN obra o ON e.id_obra = o.id_obra
+JOIN obra_privada p ON o.id_obra = p.id_obra
+WHERE o.anio_finalizacion IS NULL
+GROUP BY c.tipo_doc, c.nro_doc
+HAVING SUM(e.presupuesto) > 500000
+
+La vista no es actualizable porque contiene funciones de agregación.
+
+19) B-Tree - Sí - _id
+
+20) SKIP (Neo4J)
+
+21) Verdadero
+
+22) CREATE KEYSPACE ejercicio WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
+
+23) Verdadero.
+
+24) Falso.
+
+25) B, D, E
+
+26) D
+
+27) B, E
+
+28) No procede
+
+29) Las ventajas de usar modelos embebidos son lecturas rápidas y atomicidad, pero las desventajas son que llegas más rápido al límite de tamaño del documento y genera duplicación. Las ventajas de usar modelos referenciales son evitar duplicación y poder crecer sin arriesgar de llegar al tope del documento tan rápido, pero las desventajas son lecturas más lentas (con $lookup), se pierde la atomicidad y hay que manejar manualmente la integridad de las referencias.
+
+30)
+	a) QUORUM = floor(5/2) + 1 = 3 nodos, tanto para escritura como lectura.
+	b) Sí, se garantiza consistencia fuerte pues se cumple R+W > RF pues 3+3=6 > 5
+	c) Con RF=5, QUORUM=3. Si la escritura se confirmó con QUORUM, al menos 3 nodos tienen el dato nuevo. Entonces pueden haber máx 2 nodos desactualizados. Como la lectura se hace con QUORUM, consulta 3 nodos, entonces al menos 1 de los 3 tiene el timestamp más reciente y es el que elige Cassandra.
+	d) Se corrige con READ REPAIR: En la lectura, se da cuenta que hay 2 nodos con timestamp antiguo y les escribe el dato del timestamp reciente.
+
+31) Falso.
+Explicación:
+- Shared Lock (S): Permite lectura concurrente por varias transacciones; no permite escritura.
+- Exclusive Lock (X): Permite lectura y escritura a una única transacción; bloquea a todas las demás de ambas operaciones.
+
+32) SKIP (Neo4J)
+
+33) Verdadero.
+
+34) SKIP (Neo4J)
+
+35) A

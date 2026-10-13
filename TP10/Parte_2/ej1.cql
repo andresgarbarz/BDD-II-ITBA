@@ -2,7 +2,7 @@
 -- Una tabla por consulta. La partition key es lo que se filtra; el clustering ordena.
 
 CREATE KEYSPACE blog_noticias
-WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'};
+WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
 
 USE blog_noticias;
 

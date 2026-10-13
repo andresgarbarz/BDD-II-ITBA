@@ -1,5 +1,5 @@
 -- I
-CREATE KEYSPACE demo_cql_music WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'};
+CREATE KEYSPACE demo_cql_music WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
 
 -- II
 USE demo_cql_music;

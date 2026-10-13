@@ -2,7 +2,7 @@
 -- Una tabla por consulta. La categoría va en el producto: pertenece es 1 a n.
 
 CREATE KEYSPACE ecommerce
-WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'};
+WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
 
 USE ecommerce;
 

@@ -1,1 +1,1 @@
-CREATE KEYSPACE ejercicio WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'};
+CREATE KEYSPACE ejercicio WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
