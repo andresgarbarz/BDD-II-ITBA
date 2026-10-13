@@ -1,0 +1,12 @@
+a)
+No se borra el dato en el momento. Se escribe una marca, el tombstone, con un timestamp que dice "esta fila fue borrada". Esa marca sigue el mismo camino que una escritura: Commit Log y Memtable, y después puede terminar en una SSTable. Cuando alguien lee, si el tombstone es más nuevo que el dato, la fila no se devuelve.
+
+b)
+Porque la SSTable no se modifica. Se deja la marca en otra SSTable que se revisará en próximas lecturas y eventualmente sobrevivirá al compactar. Mientras no se compacte, el dato viejo sigue en la SSTable donde estaba.
+
+c)
+En una compactación. El tombstone tiene un plazo llamado gc_grace_seconds (10 días por defecto) durante el cual no se puede descartar, porque es el único aviso de que la fila fue borrada.
+Pasado este plazo, finalmente se puede eliminar el tombstone en la próxima compactación.
+
+d)
+Ese nodo se quedó con la fila y nunca vio el tombstone. Si vuelve cuando los demás ya compactaron y tiraron la marca, puede volver a repartir el dato borrado. La fila reaparece.

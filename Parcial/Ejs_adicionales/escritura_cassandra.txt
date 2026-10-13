@@ -1,0 +1,19 @@
+a)
+Commit Log, Memtable, SSTable.
+Primero se anota la operación en el Commit Log, en disco. Después se guarda el dato en la Memtable, en memoria, y ahí la escritura ya puede confirmarse. Luego, cuando la Memtable se llena, se vuelca entera a un archivo en disco.
+
+b)
+La Memtable.
+
+c)
+El Commit Log. Si el nodo se cae antes de volcar la Memtable, al volver se relee ese archivo y se reconstruyen las escrituras que todavía no habían llegado a una SSTable.
+
+d)
+Porque una vez escrita no se modifica. Un cambio o un borrado no edita ese archivo: se escribe como un dato nuevo, con un timestamp más reciente, y termina en otra SSTable. El archivo viejo queda igual hasta que una compactación lo reemplaza.
+
+e)
+Escribir es agregar una línea al Commit Log y meter el dato en memoria. No hay que buscar la versión anterior ni reescribir un archivo.
+Leer puede costar más porque el valor puede estar en la Memtable y en varias SSTables a la vez. Hay que mirarlas y quedarse con el timestamp más nuevo.
+
+f)
+La compactación junta varias SSTables en menos archivos. De cada dato se queda con la versión más nueva, tirando las viejas y los borrados que ya no hacen falta, para que una lectura tenga que abrir menos archivos.

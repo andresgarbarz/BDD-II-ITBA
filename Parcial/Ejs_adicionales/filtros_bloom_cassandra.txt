@@ -1,0 +1,8 @@
+a)
+Verdadero. Si filtro dice que esa partition key no está, esa SSTable no tiene el dato y Cassandra no la abre.
+
+b)
+Falso. Justamente dice que "puede estar". Hay que ir a la SSTable para confirmarlo. El filtro no da falsos negativos, pero sí falsos positivos.
+
+c)
+Verdadero. Sirve para no leer SSTables que seguro no tienen la partición y que la lectura toque menos disco.

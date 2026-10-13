@@ -1,0 +1,14 @@
+a)
+Todos los nodos cumplen el mismo rol y cualquiera puede atender una lectura o una escritura. No hay un punto único de falla: si cae un nodo, el resto sigue. El cluster escala sumando nodos, sin un maestro que se convierta en cuello de botella.
+
+b)
+No. No hay un maestro permanente. El rol de coordinador se elige por pedido: el nodo que recibe la consulta del cliente coordina esa operación y después vuelve a ser uno más.
+
+c)
+El coordinador es el nodo que recibe el pedido. Ubica las réplicas de la partición, les reenvía la lectura o la escritura, espera las confirmaciones que pide el nivel de consistencia y devuelve el resultado al cliente.
+
+d)
+Gossip es la forma en que los nodos se enteran del estado del resto del cluster sin un servidor central que les informe. Cada tanto, un nodo le habla a unos pocos y les cuenta lo que sabe: qué máquinas están prendidas/no y qué porción de los datos guarda cada una. Esos nodos se lo cuentan a otros, y el "chisme" se va pasando hasta que todos tienen la misma información.
+
+e)
+Se puede leer y escribir contra el data center más cercano, con menos latencia, y si uno entero cae el otro sigue atendiendo. La replicación entre data centers da tolerancia a fallas de un sitio completo.

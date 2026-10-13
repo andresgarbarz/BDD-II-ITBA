@@ -1,0 +1,17 @@
+a)
+CREATE KEYSPACE sensores WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 3};
+
+b)
+El factor de replicación 3 indica que cada partición se guarda en 3 nodos distintos. Hay tres copias de cada dato.
+
+c)
+QUORUM = floor(RF / 2) + 1 = 2.
+Deben confirmar la escritura 2 réplicas.
+
+d)
+ONE espera una sola réplica: responde más rápido y sigue disponible aunque queden pocos nodos en pie, pero la lectura siguiente puede caer en una réplica que todavía no tiene la última escritura.
+
+QUORUM es floor(RF / 2) + 1. Con RF = 3 eso es 2, es decir 2 de las 3 réplicas. Con lecturas y escrituras en QUORUM se cumple R + W > RF (2 + 2 > 3), así que la lectura ve la escritura más reciente. Tiene más latencia y, si hay menos de 2 réplicas disponibles, la operación falla.
+
+e)
+No. Con RF = 3 el dato sigue en los otros dos nodos. ONE se resuelve con cualquiera de ellos y QUORUM con los dos que quedan. La base deja de responder esa operación solo si el nivel de consistencia pide más réplicas de las que siguen vivas (por ejemplo, ALL).
